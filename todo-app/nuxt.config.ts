@@ -9,4 +9,7 @@ export default defineNuxtConfig({
       autoprefixer: {},
     },
   },
-})
+  plugins: [
+    { src: '~/plugins/alpine.js', mode: 'client' },
+  ],
+});
