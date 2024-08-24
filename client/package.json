@@ -12,6 +12,7 @@
   "dependencies": {
     "alpinejs": "^3.14.1",
     "dotenv": "^16.4.5",
+    "joi": "^17.13.3",
     "mongodb": "^6.8.0",
     "nuxt": "^3.12.4",
     "vue": "latest"
