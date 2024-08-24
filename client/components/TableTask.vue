@@ -1,9 +1,7 @@
 <template>
   <div class="flex flex-col">
     <div class="py-2 my-2 overflow-x-auto sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
-      <div
-        class="inline-block min-w-full overflow-hidden align-middle border-b border-gray-200 shadow sm:rounded-lg"
-      >
+      <div class="inline-block min-w-full overflow-hidden align-middle border-b border-gray-200 shadow sm:rounded-lg">
         <table class="min-w-full">
           <thead>
             <tr>
@@ -45,67 +43,59 @@
           </thead>
 
           <tbody class="bg-white">
-            <tr>
+            <!-- Loop through tasks array and render each task -->
+            <tr v-for="task in tasks.data" :key="task.id">
               <td class="px-4 py-4 whitespace-no-wrap border-b border-gray-200">
                 <input
                   type="checkbox"
                   class="form-checkbox h-4 w-4 text-blue-600 transition duration-150 ease-in-out hover:scale-110 hover:text-blue-800"
                 />
               </td>
-              <td
-                class="px-4 py-4 whitespace-no-wrap border-b border-gray-200 w-3/5"
-              >
+              <td class="px-4 py-4 whitespace-no-wrap border-b border-gray-200 w-3/5">
                 <div class="flex-1">
                   <div class="ml-1">
                     <div class="text-sm font-medium leading-5 text-gray-900">
-                      Explore Vue.js
+                      {{ task.name }}
                     </div>
                     <div v-if="!store.isExpanded">
                       <div class="text-sm leading-5 text-gray-500">
-                        {{ truncatedText }}
+                        {{ task.description.length > 100 ? task.description.substring(0, 100) + '...' : task.description }}
                       </div>
-                      <button
-                        @click="store.toggleExpand"
-                        class="text-blue-500 text-xs"
-                      >
+                      <button @click="store.toggleExpand" class="text-blue-500 text-xs">
                         Read More
                       </button>
                     </div>
                     <div v-else>
                       <div class="text-sm leading-5 text-gray-500">
-                        {{ fullText }}
+                        {{ task.description }}
                       </div>
-                      <button
-                        @click="store.toggleExpand"
-                        class="text-blue-500 text-xs"
-                      >
+                      <button @click="store.toggleExpand" class="text-blue-500 text-xs">
                         Read Less
                       </button>
                     </div>
                   </div>
                 </div>
               </td>
-
               <td class="px-4 py-4 whitespace-no-wrap border-b border-gray-200">
-                <div class="text-sm leading-5 text-gray-900">High</div>
+                <div class="text-sm leading-5 text-gray-900">{{ task.priority }}</div>
               </td>
-
               <td class="px-4 py-4 whitespace-no-wrap border-b border-gray-200">
                 <span
-                  class="inline-flex px-2 text-xs font-semibold leading-5 text-green-800 bg-green-100 rounded-full"
-                  >Active</span
+                  :class="{
+                    'inline-flex px-2 text-xs font-semibold leading-5 rounded-full': true,
+                    'text-green-800 bg-green-100': task.status === 'completed',
+                    'text-yellow-800 bg-yellow-100': task.status === 'pending',
+                    'text-red-800 bg-red-100': task.status === 'overdue'
+                  }"
                 >
+                  {{ task.status }}
+                </span>
               </td>
-
-              <td
-                class="px-4 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-b border-gray-200"
-              >
-                22 January 2025
+              <td class="px-4 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-b border-gray-200">
+                {{ formatDate(task.dueDate) }}
               </td>
-              <td
-                class="px-4 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-b border-gray-200"
-              >
-                Work
+              <td class="px-4 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-b border-gray-200">
+                {{ task.category }}
               </td>
 
               <td
@@ -220,12 +210,30 @@
 </template>
 
 <script setup>
-import { computed } from "vue";
+import { computed, ref, onMounted } from "vue";
 import { store } from "../store/store.js";
+import axios from "axios";
+
+const tasks = ref([]);
+const fetchTasks = async () => {
+  try {
+    const response = await axios.get("http://localhost:3000/api/tasks")
+    tasks.value = response.data
+  } catch (error) {
+    console.error("Error fetching tasks:", error)
+  }
+}
+
+onMounted(fetchTasks)
 
 const fullText = `Lorem ipsum dolor sit amet consectetur adipisicing elit. Aut doloribus ex facere, quia iure sequi sapiente rem, non reiciendis facilis expedita laborum ducimus? Vel, incidunt reprehenderit possimus modi debitis facilis nisi tempora exercitationem suscipit est odit tenetur impedit! Delectus dolores optio, provident odit eligendi et rerum dicta ipsa nam explicabo!`;
 
 const truncatedText = computed(() => {
   return fullText.length > 100 ? fullText.substring(0, 100) + "..." : fullText;
 });
+
+const formatDate = (dateString) => {
+  const options = { year: 'numeric', month: 'long', day: 'numeric' };
+  return new Date(dateString).toLocaleDateString(undefined, options);
+}
 </script>

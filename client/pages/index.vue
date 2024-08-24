@@ -6,7 +6,10 @@
         <NavBar></NavBar>
         <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-200">
           <div class="container px-6 py-8 mx-auto">
-            <h3 class="text-3xl font-medium text-gray-700">My Tasks</h3>
+            <div class="flex items-center justify-between">
+              <h3 class="text-3xl font-medium text-gray-700">My Tasks</h3>
+              <ButtonNewTask></ButtonNewTask>
+            </div>
             <div class="mt-4">
               <Banner></Banner>
             </div>

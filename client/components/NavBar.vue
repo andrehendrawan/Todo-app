@@ -215,6 +215,3 @@
 import { store } from "../store/store.js";
 </script>
 
-<style scoped>
-/* Your styles here */
-</style>

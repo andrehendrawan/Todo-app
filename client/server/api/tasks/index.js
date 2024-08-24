@@ -8,6 +8,7 @@ const taskSchema = Joi.object({
   description: Joi.string().max(500),
   status: Joi.string().valid('pending', 'completed').required(),
   priority: Joi.string().valid('low', 'medium', 'high').required(),
+  category: Joi.string().max(20).default('personal'),
   dueDate: Joi.date().optional(),
 });
 
