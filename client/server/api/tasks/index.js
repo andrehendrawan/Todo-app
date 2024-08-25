@@ -23,7 +23,7 @@ export default defineEventHandler(async (event) => {
   try {
     if (method === 'GET') {
       // Fetch all tasks
-      const tasks = await tasksCollection.find().toArray();
+      const tasks = await tasksCollection.find({ status: 'pending' }).toArray();
       return {
         status: 200,
         data: tasks,

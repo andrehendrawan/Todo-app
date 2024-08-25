@@ -1,7 +1,9 @@
 <template>
   <div class="flex flex-col">
     <div class="py-2 my-2 overflow-x-auto sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
-      <div class="inline-block min-w-full overflow-hidden align-middle border-b border-gray-200 shadow sm:rounded-lg">
+      <div
+        class="inline-block min-w-full overflow-hidden align-middle border-b border-gray-200 shadow sm:rounded-lg"
+      >
         <table class="min-w-full">
           <thead>
             <tr>
@@ -43,15 +45,285 @@
           </thead>
 
           <tbody class="bg-white">
-            <!-- Loop through tasks array and render each task -->
-            <tr v-for="task in tasks.data" :key="task.id">
+            <!-- Loading state -->
+            <tr v-if="isLoading">
+              <td colspan="8" class="px-4 py-4 text-center">
+                <button
+                  type="button"
+                  class="bg-indigo-500 text-white rounded-md"
+                  disabled
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 100 100"
+                    preserveAspectRatio="xMidYMid"
+                    width="200"
+                    height="200"
+                    style="
+                      shape-rendering: auto;
+                      display: block;
+                      background: rgb(255, 255, 255);
+                    "
+                    xmlns:xlink="http://www.w3.org/1999/xlink"
+                  >
+                    <g>
+                      <g transform="rotate(0 50 50)">
+                        <rect
+                          fill="#8071fe"
+                          height="12"
+                          width="6"
+                          ry="6"
+                          rx="3"
+                          y="24"
+                          x="47"
+                        >
+                          <animate
+                            repeatCount="indefinite"
+                            begin="-0.9166666666666666s"
+                            dur="1s"
+                            keyTimes="0;1"
+                            values="1;0"
+                            attributeName="opacity"
+                          ></animate>
+                        </rect>
+                      </g>
+                      <g transform="rotate(30 50 50)">
+                        <rect
+                          fill="#8071fe"
+                          height="12"
+                          width="6"
+                          ry="6"
+                          rx="3"
+                          y="24"
+                          x="47"
+                        >
+                          <animate
+                            repeatCount="indefinite"
+                            begin="-0.8333333333333334s"
+                            dur="1s"
+                            keyTimes="0;1"
+                            values="1;0"
+                            attributeName="opacity"
+                          ></animate>
+                        </rect>
+                      </g>
+                      <g transform="rotate(60 50 50)">
+                        <rect
+                          fill="#8071fe"
+                          height="12"
+                          width="6"
+                          ry="6"
+                          rx="3"
+                          y="24"
+                          x="47"
+                        >
+                          <animate
+                            repeatCount="indefinite"
+                            begin="-0.75s"
+                            dur="1s"
+                            keyTimes="0;1"
+                            values="1;0"
+                            attributeName="opacity"
+                          ></animate>
+                        </rect>
+                      </g>
+                      <g transform="rotate(90 50 50)">
+                        <rect
+                          fill="#8071fe"
+                          height="12"
+                          width="6"
+                          ry="6"
+                          rx="3"
+                          y="24"
+                          x="47"
+                        >
+                          <animate
+                            repeatCount="indefinite"
+                            begin="-0.6666666666666666s"
+                            dur="1s"
+                            keyTimes="0;1"
+                            values="1;0"
+                            attributeName="opacity"
+                          ></animate>
+                        </rect>
+                      </g>
+                      <g transform="rotate(120 50 50)">
+                        <rect
+                          fill="#8071fe"
+                          height="12"
+                          width="6"
+                          ry="6"
+                          rx="3"
+                          y="24"
+                          x="47"
+                        >
+                          <animate
+                            repeatCount="indefinite"
+                            begin="-0.5833333333333334s"
+                            dur="1s"
+                            keyTimes="0;1"
+                            values="1;0"
+                            attributeName="opacity"
+                          ></animate>
+                        </rect>
+                      </g>
+                      <g transform="rotate(150 50 50)">
+                        <rect
+                          fill="#8071fe"
+                          height="12"
+                          width="6"
+                          ry="6"
+                          rx="3"
+                          y="24"
+                          x="47"
+                        >
+                          <animate
+                            repeatCount="indefinite"
+                            begin="-0.5s"
+                            dur="1s"
+                            keyTimes="0;1"
+                            values="1;0"
+                            attributeName="opacity"
+                          ></animate>
+                        </rect>
+                      </g>
+                      <g transform="rotate(180 50 50)">
+                        <rect
+                          fill="#8071fe"
+                          height="12"
+                          width="6"
+                          ry="6"
+                          rx="3"
+                          y="24"
+                          x="47"
+                        >
+                          <animate
+                            repeatCount="indefinite"
+                            begin="-0.4166666666666667s"
+                            dur="1s"
+                            keyTimes="0;1"
+                            values="1;0"
+                            attributeName="opacity"
+                          ></animate>
+                        </rect>
+                      </g>
+                      <g transform="rotate(210 50 50)">
+                        <rect
+                          fill="#8071fe"
+                          height="12"
+                          width="6"
+                          ry="6"
+                          rx="3"
+                          y="24"
+                          x="47"
+                        >
+                          <animate
+                            repeatCount="indefinite"
+                            begin="-0.3333333333333333s"
+                            dur="1s"
+                            keyTimes="0;1"
+                            values="1;0"
+                            attributeName="opacity"
+                          ></animate>
+                        </rect>
+                      </g>
+                      <g transform="rotate(240 50 50)">
+                        <rect
+                          fill="#8071fe"
+                          height="12"
+                          width="6"
+                          ry="6"
+                          rx="3"
+                          y="24"
+                          x="47"
+                        >
+                          <animate
+                            repeatCount="indefinite"
+                            begin="-0.25s"
+                            dur="1s"
+                            keyTimes="0;1"
+                            values="1;0"
+                            attributeName="opacity"
+                          ></animate>
+                        </rect>
+                      </g>
+                      <g transform="rotate(270 50 50)">
+                        <rect
+                          fill="#8071fe"
+                          height="12"
+                          width="6"
+                          ry="6"
+                          rx="3"
+                          y="24"
+                          x="47"
+                        >
+                          <animate
+                            repeatCount="indefinite"
+                            begin="-0.16666666666666666s"
+                            dur="1s"
+                            keyTimes="0;1"
+                            values="1;0"
+                            attributeName="opacity"
+                          ></animate>
+                        </rect>
+                      </g>
+                      <g transform="rotate(300 50 50)">
+                        <rect
+                          fill="#8071fe"
+                          height="12"
+                          width="6"
+                          ry="6"
+                          rx="3"
+                          y="24"
+                          x="47"
+                        >
+                          <animate
+                            repeatCount="indefinite"
+                            begin="-0.08333333333333333s"
+                            dur="1s"
+                            keyTimes="0;1"
+                            values="1;0"
+                            attributeName="opacity"
+                          ></animate>
+                        </rect>
+                      </g>
+                      <g transform="rotate(330 50 50)">
+                        <rect
+                          fill="#8071fe"
+                          height="12"
+                          width="6"
+                          ry="6"
+                          rx="3"
+                          y="24"
+                          x="47"
+                        >
+                          <animate
+                            repeatCount="indefinite"
+                            begin="0s"
+                            dur="1s"
+                            keyTimes="0;1"
+                            values="1;0"
+                            attributeName="opacity"
+                          ></animate>
+                        </rect>
+                      </g>
+                      <g></g>
+                    </g>
+                  </svg>
+                </button>
+              </td>
+            </tr>
+
+            <tr v-else v-for="task in tasks.data" :key="task.id">
               <td class="px-4 py-4 whitespace-no-wrap border-b border-gray-200">
                 <input
                   type="checkbox"
                   class="form-checkbox h-4 w-4 text-blue-600 transition duration-150 ease-in-out hover:scale-110 hover:text-blue-800"
                 />
               </td>
-              <td class="px-4 py-4 whitespace-no-wrap border-b border-gray-200 w-3/5">
+              <td
+                class="px-4 py-4 whitespace-no-wrap border-b border-gray-200 w-3/5"
+              >
                 <div class="flex-1">
                   <div class="ml-1">
                     <div class="text-sm font-medium leading-5 text-gray-900">
@@ -59,9 +331,16 @@
                     </div>
                     <div v-if="!store.isExpanded">
                       <div class="text-sm leading-5 text-gray-500">
-                        {{ task.description.length > 100 ? task.description.substring(0, 100) + '...' : task.description }}
+                        {{
+                          task.description.length > 100
+                            ? task.description.substring(0, 100) + "..."
+                            : task.description
+                        }}
                       </div>
-                      <button @click="store.toggleExpand" class="text-blue-500 text-xs">
+                      <button
+                        @click="store.toggleExpand"
+                        class="text-blue-500 text-xs"
+                      >
                         Read More
                       </button>
                     </div>
@@ -69,7 +348,10 @@
                       <div class="text-sm leading-5 text-gray-500">
                         {{ task.description }}
                       </div>
-                      <button @click="store.toggleExpand" class="text-blue-500 text-xs">
+                      <button
+                        @click="store.toggleExpand"
+                        class="text-blue-500 text-xs"
+                      >
                         Read Less
                       </button>
                     </div>
@@ -77,7 +359,9 @@
                 </div>
               </td>
               <td class="px-4 py-4 whitespace-no-wrap border-b border-gray-200">
-                <div class="text-sm leading-5 text-gray-900">{{ task.priority }}</div>
+                <div class="text-sm leading-5 text-gray-900">
+                  {{ task.priority }}
+                </div>
               </td>
               <td class="px-4 py-4 whitespace-no-wrap border-b border-gray-200">
                 <span
@@ -85,16 +369,20 @@
                     'inline-flex px-2 text-xs font-semibold leading-5 rounded-full': true,
                     'text-green-800 bg-green-100': task.status === 'completed',
                     'text-yellow-800 bg-yellow-100': task.status === 'pending',
-                    'text-red-800 bg-red-100': task.status === 'overdue'
+                    'text-red-800 bg-red-100': task.status === 'overdue',
                   }"
                 >
                   {{ task.status }}
                 </span>
               </td>
-              <td class="px-4 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-b border-gray-200">
+              <td
+                class="px-4 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-b border-gray-200"
+              >
                 {{ formatDate(task.dueDate) }}
               </td>
-              <td class="px-4 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-b border-gray-200">
+              <td
+                class="px-4 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-b border-gray-200"
+              >
                 {{ task.category }}
               </td>
 
@@ -147,59 +435,7 @@
               <td
                 class="px-2 py-4 leading-5 text-right whitespace-no-wrap border-b border-gray-200"
               >
-                <a href="#" class="text-indigo-600 hover:text-indigo-900">
-                  <svg
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                    height="24"
-                    width="24"
-                  >
-                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                    <g
-                      id="SVGRepo_tracerCarrier"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    ></g>
-                    <g id="SVGRepo_iconCarrier">
-                      <path
-                        d="M10 12V17"
-                        stroke="#d10000"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      ></path>
-                      <path
-                        d="M14 12V17"
-                        stroke="#d10000"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      ></path>
-                      <path
-                        d="M4 7H20"
-                        stroke="#d10000"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      ></path>
-                      <path
-                        d="M6 10V18C6 19.6569 7.34315 21 9 21H15C16.6569 21 18 19.6569 18 18V10"
-                        stroke="#d10000"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      ></path>
-                      <path
-                        d="M9 5C9 3.89543 9.89543 3 11 3H13C14.1046 3 15 3.89543 15 5V7H9V5Z"
-                        stroke="#d10000"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      ></path>
-                    </g>
-                  </svg>
-                </a>
+              <DeleteButton :taskId="task._id" :fetchTasks="fetchTasks"/>
               </td>
             </tr>
           </tbody>
@@ -214,17 +450,22 @@ import { computed, ref, onMounted } from "vue";
 import { store } from "../store/store.js";
 import axios from "axios";
 
+const isLoading = ref(false);
+
 const tasks = ref([]);
 const fetchTasks = async () => {
   try {
-    const response = await axios.get("http://localhost:3000/api/tasks")
-    tasks.value = response.data
+    isLoading.value = true;
+    const response = await axios.get("http://localhost:3000/api/tasks");
+    tasks.value = response.data;
   } catch (error) {
-    console.error("Error fetching tasks:", error)
+    console.error("Error fetching tasks:", error);
+  } finally {
+    isLoading.value = false;
   }
-}
+};
 
-onMounted(fetchTasks)
+onMounted(fetchTasks);
 
 const fullText = `Lorem ipsum dolor sit amet consectetur adipisicing elit. Aut doloribus ex facere, quia iure sequi sapiente rem, non reiciendis facilis expedita laborum ducimus? Vel, incidunt reprehenderit possimus modi debitis facilis nisi tempora exercitationem suscipit est odit tenetur impedit! Delectus dolores optio, provident odit eligendi et rerum dicta ipsa nam explicabo!`;
 
@@ -233,7 +474,9 @@ const truncatedText = computed(() => {
 });
 
 const formatDate = (dateString) => {
-  const options = { year: 'numeric', month: 'long', day: 'numeric' };
+  const options = { year: "numeric", month: "long", day: "numeric" };
   return new Date(dateString).toLocaleDateString(undefined, options);
-}
+};
+
+
 </script>
