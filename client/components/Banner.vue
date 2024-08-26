@@ -29,7 +29,7 @@
         </div>
 
         <div class="mx-5">
-          <h4 class="text-2xl font-semibold text-gray-700">8,282</h4>
+          <h4 class="text-2xl font-semibold text-gray-700">{{totalTasks}}</h4>
           <div class="text-gray-500">Total Tasks</div>
         </div>
       </div>
@@ -87,8 +87,8 @@
         </div>
 
         <div class="mx-5">
-          <h4 class="text-2xl font-semibold text-gray-700">200,521</h4>
-          <div class="text-gray-500">Deadline Tasks</div>
+          <h4 class="text-2xl font-semibold text-gray-700">{{pendingTasks}}</h4>
+          <div class="text-gray-500">Pending Tasks</div>
         </div>
       </div>
     </div>
@@ -120,10 +120,35 @@
         </div>
 
         <div class="mx-5">
-          <h4 class="text-2xl font-semibold text-gray-700">215,542</h4>
+          <h4 class="text-2xl font-semibold text-gray-700">{{completedTasks}}</h4>
           <div class="text-gray-500">Completed Tasks</div>
         </div>
       </div>
     </div>
   </div>
 </template>
+
+
+
+<script setup>
+import { ref, onMounted } from 'vue';
+
+const totalTasks = ref(0);
+const pendingTasks = ref(0);
+const completedTasks = ref(0);
+
+const fetchTaskCounts = async () => {
+  try {
+    const { totalTasks: total, completedTasks: completed, pendingTasks: pending } = await $fetch('http://localhost:3000/api/tasks/counts');
+    totalTasks.value = total;
+    pendingTasks.value = pending;
+    completedTasks.value = completed;
+  } catch (error) {
+    console.error('Error fetching task counts:', error);
+  }
+};
+
+onMounted(() => {
+  fetchTaskCounts();
+});
+</script>

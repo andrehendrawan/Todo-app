@@ -408,8 +408,24 @@ const tasks = ref([]);
 const fetchTasks = async () => {
   try {
     isLoading.value = true;
-    const response = await axios.get("http://localhost:3000/api/tasks");
-    tasks.value = response.data;
+    
+    // Check if cached data exists and is still valid
+    const cachedTasks = localStorage.getItem('tasks');
+    const cacheExpiry = localStorage.getItem('cacheExpiry');
+    const now = new Date().getTime();
+
+    if (cachedTasks && cacheExpiry && now < cacheExpiry) {
+      tasks.value = JSON.parse(cachedTasks);
+    } else {
+      const response = await axios.get("http://localhost:3000/api/tasks");
+      tasks.value = response.data;
+
+      // Cache the data and set an expiry time (e.g., 5 minutes)
+      localStorage.setItem('tasks', JSON.stringify(tasks.value));
+      localStorage.setItem('cacheExpiry', now + 5 * 60 * 1000);
+    }
+
+    console.log(tasks.value);
   } catch (error) {
     console.error("Error fetching tasks:", error);
   } finally {

@@ -106,7 +106,9 @@ const submitNewTask = async () => {
       dueDate: "",
     };
 
-    // Close the modal
+    localStorage.removeItem('tasks');
+    localStorage.removeItem('cacheExpiry');
+
     window.location.reload();
   } catch (error) {
     let errorMessage = "An error occurred. Please try again.";
