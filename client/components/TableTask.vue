@@ -7,13 +7,6 @@
         <table class="min-w-full">
           <thead>
             <tr>
-              <th class="px-4 py-3 border-b border-gray-200 bg-gray-50">
-                <!-- Checkbox for selecting all tasks -->
-                <input
-                  type="checkbox"
-                  class="form-checkbox h-4 w-4 text-blue-600 transition duration-150 ease-in-out hover:scale-110 hover:text-blue-800"
-                />
-              </th>
               <th
                 class="px-4 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase border-b border-gray-200 bg-gray-50"
               >
@@ -39,6 +32,7 @@
               >
                 Category
               </th>
+              <th class="px-4 py-3 border-b border-gray-200 bg-gray-50"></th>
               <th class="px-4 py-3 border-b border-gray-200 bg-gray-50"></th>
               <th class="px-4 py-3 border-b border-gray-200 bg-gray-50"></th>
             </tr>
@@ -315,14 +309,8 @@
             </tr>
 
             <tr v-else v-for="task in tasks.data" :key="task.id">
-              <td class="px-4 py-4 whitespace-no-wrap border-b border-gray-200">
-                <input
-                  type="checkbox"
-                  class="form-checkbox h-4 w-4 text-blue-600 transition duration-150 ease-in-out hover:scale-110 hover:text-blue-800"
-                />
-              </td>
               <td
-                class="px-4 py-4 whitespace-no-wrap border-b border-gray-200 w-3/5"
+                class="px-4 py-4 whitespace-no-wrap border-b border-gray-200 w-2/5"
               >
                 <div class="flex-1">
                   <div class="ml-1">
@@ -389,12 +377,17 @@
               <td
                 class="px-2 py-4 leading-5 text-right whitespace-no-wrap border-b border-gray-200"
               >
-              <ButtonEditTask :task="task" />
+                <ButtonEditTask :task="task" />
               </td>
               <td
                 class="px-2 py-4 leading-5 text-right whitespace-no-wrap border-b border-gray-200"
               >
-              <ButtonDelete :taskId="task._id" :fetchTasks="fetchTasks"/>
+                <ButtonDelete :taskId="task._id" :fetchTasks="fetchTasks" />
+              </td>
+              <td
+                class="px-2 py-4 leading-5 text-right whitespace-no-wrap border-b border-gray-200"
+              >
+                <ButtonCompleted :taskId="task._id" />
               </td>
             </tr>
           </tbody>
@@ -436,6 +429,4 @@ const formatDate = (dateString) => {
   const options = { year: "numeric", month: "long", day: "numeric" };
   return new Date(dateString).toLocaleDateString(undefined, options);
 };
-
-
 </script>

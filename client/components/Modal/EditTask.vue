@@ -72,6 +72,7 @@
 
 <script setup>
 import axios from 'axios';
+import Swal from 'sweetalert2';
 import { ref, watch } from 'vue';
 import store from '~/store/store';
 
@@ -109,12 +110,21 @@ const submitEditedTask = async () => {
       id,
       ...taskData,  
     });
-
+    Swal.fire({
+      icon: 'success',
+      title: 'Task Updated',
+      text: 'Your task has been successfully updated.',
+    });
     console.log("Task edited:", response);
     closeModalEditTask();
     window.location.reload()
   } catch (error) {
     console.error("Error editing task:", error);
+    Swal.fire({
+      icon: 'error',
+      title: 'Oops...',
+      text: error.response?.data?.message || 'An error occurred while updating the task.',
+    });
   }
 };
 

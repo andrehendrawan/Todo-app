@@ -71,6 +71,7 @@
 </template>
 
 <script setup>
+import Swal from "sweetalert2";
 import { ref } from "vue";
 import store from "~/store/store";
 
@@ -108,7 +109,22 @@ const submitNewTask = async () => {
     // Close the modal
     window.location.reload();
   } catch (error) {
-    // Handle the error appropriately
+    let errorMessage = "An error occurred. Please try again.";
+
+    if (error.response && error.response.data && error.response.data.message) {
+      // Use the message from the backend if available
+      errorMessage = error.response.data.message;
+    } else if (error.message) {
+      // Fallback to the error message if no specific message from the backend
+      errorMessage = error.message;
+    }
+
+    Swal.fire({
+      icon: "error",
+      title: "Oops...",
+      text: errorMessage,
+    });
+
     console.error("Error submitting new task:", error);
   }
 };
@@ -116,5 +132,4 @@ const submitNewTask = async () => {
 const closeModalNewTask = () => {
   store.closeModalNewTask();
 };
-
 </script>
