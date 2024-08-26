@@ -6,6 +6,8 @@ export const store = reactive({
   dropdownOpen: false,
   isExpanded: false,
   isModalNewTaskOpen: false,
+  isModalEditTaskOpen: false,
+  selectedTask: {},
   
   toggleSidebar() {
     this.sidebarOpen = !this.sidebarOpen;
@@ -16,16 +18,22 @@ export const store = reactive({
   toggleDropdown() {
     this.dropdownOpen = !this.dropdownOpen;
   },
-
   toggleExpand() {
     this.isExpanded = !this.isExpanded;
   },
-
+  
   openModalNewTask() {
     this.isModalNewTaskOpen = true;
   },
   closeModalNewTask() {
     this.isModalNewTaskOpen = false;
+  },
+  
+  openModalEditTask() {  
+    this.isModalEditTaskOpen = true;
+  },
+  closeModalEditTask() { 
+    this.isModalEditTaskOpen = false;
   },
 });
 

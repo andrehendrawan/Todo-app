@@ -327,7 +327,7 @@
                 <div class="flex-1">
                   <div class="ml-1">
                     <div class="text-sm font-medium leading-5 text-gray-900">
-                      {{ task.name }}
+                      {{ task.title }}
                     </div>
                     <div v-if="!store.isExpanded">
                       <div class="text-sm leading-5 text-gray-500">
@@ -389,53 +389,12 @@
               <td
                 class="px-2 py-4 leading-5 text-right whitespace-no-wrap border-b border-gray-200"
               >
-                <a href="#" class="text-indigo-600 hover:text-indigo-900">
-                  <svg
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="#000000"
-                    stroke="#000000"
-                    height="24"
-                    width="24"
-                  >
-                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                    <g
-                      id="SVGRepo_tracerCarrier"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    ></g>
-                    <g id="SVGRepo_iconCarrier">
-                      <title></title>
-                      <g id="Complete">
-                        <g id="edit">
-                          <g>
-                            <path
-                              d="M20,16v4a2,2,0,0,1-2,2H4a2,2,0,0,1-2-2V6A2,2,0,0,1,4,4H8"
-                              fill="none"
-                              stroke="#007bff"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              stroke-width="2"
-                            ></path>
-                            <polygon
-                              fill="none"
-                              points="12.5 15.8 22 6.2 17.8 2 8.3 11.5 8 16 12.5 15.8"
-                              stroke="#007bff"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              stroke-width="2"
-                            ></polygon>
-                          </g>
-                        </g>
-                      </g>
-                    </g>
-                  </svg>
-                </a>
+              <ButtonEditTask :task="task" />
               </td>
               <td
                 class="px-2 py-4 leading-5 text-right whitespace-no-wrap border-b border-gray-200"
               >
-              <DeleteButton :taskId="task._id" :fetchTasks="fetchTasks"/>
+              <ButtonDelete :taskId="task._id" :fetchTasks="fetchTasks"/>
               </td>
             </tr>
           </tbody>

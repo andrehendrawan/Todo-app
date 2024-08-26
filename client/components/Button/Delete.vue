@@ -72,7 +72,7 @@
       data: { id: props.taskId },
     });
     console.log('Delete response:', response.data);
-    await props.fetchTasks();
+    window.location.reload();
   } catch (error) {
     console.error('Error deleting task:', error);
   }

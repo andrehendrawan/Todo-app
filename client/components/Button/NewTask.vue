@@ -12,6 +12,6 @@
 
 <script setup>
 import store from "../store/store.js";
-import ModalNewTask from "./ModalNewTask.vue";
+import ModalNewTask from "../Modal/NewTask.vue";
 
 </script>

@@ -72,11 +72,9 @@
 
 <script setup>
 import { ref } from "vue";
-import { useFetch } from "#app";
 import store from "~/store/store";
 
 // Fetch tasks
-const { data: tasks, pending, error, refresh } = useFetch('http://localhost:3000/api/tasks');
 
 const task = ref({
   title: "",
@@ -107,11 +105,8 @@ const submitNewTask = async () => {
       dueDate: "",
     };
 
-    // Refresh the task list
-    await refresh();
-
     // Close the modal
-    closeModalNewTask();
+    window.location.reload();
   } catch (error) {
     // Handle the error appropriately
     console.error("Error submitting new task:", error);

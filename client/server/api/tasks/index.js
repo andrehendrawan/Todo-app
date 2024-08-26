@@ -22,8 +22,11 @@ export default defineEventHandler(async (event) => {
 
   try {
     if (method === 'GET') {
-      // Fetch all tasks
-      const tasks = await tasksCollection.find({ status: 'pending' }).toArray();
+      const tasks = await tasksCollection
+        .find({ status: 'pending' })
+        .sort({ createdAt: -1 })
+        .toArray();
+    
       return {
         status: 200,
         data: tasks,
@@ -31,18 +34,34 @@ export default defineEventHandler(async (event) => {
     } else if (method === 'POST') {
       // Create Task
       const body = await readBody(event);
+      
+      // Check if dueDate is provided and validate it
+      const today = new Date().setHours(0, 0, 0, 0); // Today's date at midnight
+    
+      if (body.dueDate) {
+        const dueDate = new Date(body.dueDate).setHours(0, 0, 0, 0);
+        
+        if (dueDate < today) {
+          return sendError(
+            event,
+            createError({ statusCode: 400, statusMessage: 'Due date cannot be before today.' })
+          );
+        }
+      }
+    
+      // Validate the task data
       const { error, value } = taskSchema.validate(body);
-
+    
       if (error) {
         return sendError(
           event,
           createError({ statusCode: 400, statusMessage: error.details[0].message })
         );
       }
-
+    
       value.createdAt = new Date();
       value.updatedAt = new Date();
-
+    
       const result = await tasksCollection.insertOne(value);
       return {
         status: 201,
@@ -52,30 +71,33 @@ export default defineEventHandler(async (event) => {
       // Update Task
       const body = await readBody(event);
       const { id, ...updateData } = body;
-
+    
+      // Validate the updateData using Joi or your validation library
       const { error, value } = taskSchema.validate(updateData);
-
+    
       if (error) {
         return sendError(
           event,
           createError({ statusCode: 400, statusMessage: error.details[0].message })
         );
       }
-
+    
+      // Ensure the updatedAt field is set to the current date
       value.updatedAt = new Date();
-
+    
+      // Perform the update operation, preserving the createdAt field
       const result = await tasksCollection.updateOne(
         { _id: new ObjectId(id) },
         { $set: value }
       );
-
+    
       if (result.matchedCount === 0) {
         return sendError(
           event,
           createError({ statusCode: 404, statusMessage: 'Task not found' })
         );
       }
-
+    
       return {
         status: 200,
         data: result,
