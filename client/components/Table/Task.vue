@@ -404,7 +404,7 @@ const fetchTasks = async (searchQuery = "") => {
     // if (cachedTasks && cacheExpiry && now < cacheExpiry) {
     //   tasks.value = JSON.parse(cachedTasks);
     // } else {
-      const response = await axios.get("http://localhost:3000/api/tasks", {
+      const response = await axios.get("https://todo-fp15vl26s-andre-hendrawans-projects.vercel.app/api/tasks", {
         params: {
           search: searchQuery,
         },
