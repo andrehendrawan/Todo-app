@@ -404,19 +404,21 @@ const fetchTasks = async (searchQuery = "") => {
     // if (cachedTasks && cacheExpiry && now < cacheExpiry) {
     //   tasks.value = JSON.parse(cachedTasks);
     // } else {
-      const response = await axios.get("https://todo-fp15vl26s-andre-hendrawans-projects.vercel.app/api/tasks", {
+    const response = await axios.get(
+      "http://localhost:3000/api/tasks",
+      {
         params: {
           search: searchQuery,
         },
-      });
-      tasks.value = response.data;
-      // Check for reminders
-      store.checkReminders(tasks.value.data);
-      // Cache the data and set an expiry time (e.g., 5 minutes)
-      // localStorage.setItem(cacheKey, JSON.stringify(tasks.value));
-      // localStorage.setItem(`${cacheKey}_expiry`, now + 5 * 60 * 1000);
+      }
+    );
+    tasks.value = response.data;
+    // Check for reminders
+    store.checkReminders(tasks.value.data);
+    // Cache the data and set an expiry time (e.g., 5 minutes)
+    // localStorage.setItem(cacheKey, JSON.stringify(tasks.value));
+    // localStorage.setItem(`${cacheKey}_expiry`, now + 5 * 60 * 1000);
     // }
-
   } catch (error) {
     console.error("Error fetching tasks:", error);
   } finally {

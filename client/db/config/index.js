@@ -12,3 +12,7 @@ export const client = new MongoClient(uri, {
       deprecationErrors: true,
     },
   });
+
+  console.log(client);
+  console.log(uri);
+  
