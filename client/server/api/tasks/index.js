@@ -18,15 +18,13 @@ export default defineEventHandler(async (event) => {
   const tasksCollection = db.collection('Tasks');
 
   const method = event.node.req.method;
-  const id = event.context.params?.id
 
   try {
     if (method === 'GET') {
-      // Get the 'title' query parameter
       const queryTitle = event.node.req.url.split('?')[1]?.split('=')[1];
       const query = {
         status: 'pending',
-        ...(queryTitle && { title: new RegExp(queryTitle, 'i') }), // Search by title if provided
+        ...(queryTitle && { title: new RegExp(queryTitle, 'i') }),
       };
 
       const tasks = await tasksCollection
@@ -39,11 +37,9 @@ export default defineEventHandler(async (event) => {
         data: tasks,
       };
     } else if (method === 'POST') {
-      // Create Task
       const body = await readBody(event);
       
-      // Check if dueDate is provided and validate it
-      const today = new Date().setHours(0, 0, 0, 0); // Today's date at midnight
+      const today = new Date().setHours(0, 0, 0, 0);
     
       if (body.dueDate) {
         const dueDate = new Date(body.dueDate).setHours(0, 0, 0, 0);
@@ -56,7 +52,6 @@ export default defineEventHandler(async (event) => {
         }
       }
     
-      // Validate the task data
       const { error, value } = taskSchema.validate(body);
     
       if (error) {
@@ -75,11 +70,9 @@ export default defineEventHandler(async (event) => {
         data: result,
       };
     } else if (method === 'PUT') {
-      // Update Task
       const body = await readBody(event);
       const { id, ...updateData } = body;
     
-      // Validate the updateData using Joi or your validation library
       const { error, value } = taskSchema.validate(updateData);
     
       if (error) {
@@ -89,10 +82,8 @@ export default defineEventHandler(async (event) => {
         );
       }
     
-      // Ensure the updatedAt field is set to the current date
       value.updatedAt = new Date();
     
-      // Perform the update operation, preserving the createdAt field
       const result = await tasksCollection.updateOne(
         { _id: new ObjectId(id) },
         { $set: value }
@@ -110,7 +101,6 @@ export default defineEventHandler(async (event) => {
         data: result,
       };
     } else if (method === 'DELETE') {
-      // Delete Task
       const { id } = await readBody(event);
 
       const result = await tasksCollection.deleteOne({ _id: new ObjectId(id) });
@@ -127,7 +117,6 @@ export default defineEventHandler(async (event) => {
         data: result,
       };
     } else {
-      // Method Not Allowed
       return sendError(
         event,
         createError({ statusCode: 405, statusMessage: 'Method Not Allowed' })

@@ -6,13 +6,10 @@ export default defineEventHandler(async (event) => {
   const tasksCollection = db.collection('Tasks');
 
   try {
-    // Count total tasks
     const totalTasks = await tasksCollection.countDocuments({});
 
-    // Count tasks with status 'pending'
     const pendingTasks = await tasksCollection.countDocuments({ status: 'pending' });
 
-    // Count tasks with status 'complete'
     const completedTasks = await tasksCollection.countDocuments({ status: 'completed' });
 
     return {
@@ -26,6 +23,6 @@ export default defineEventHandler(async (event) => {
       createError({ statusCode: 500, statusMessage: 'Internal Server Error' })
     );
   } finally {
-    await client.close(); // Close the database connection
+    await client.close();
   }
 });

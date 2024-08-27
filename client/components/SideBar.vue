@@ -83,7 +83,6 @@
         </svg>
         <span class="mx-3">Done Tasks</span>
       </NuxtLink>
-      <!-- Other nav items -->
     </nav>
   </div>
 </template>
@@ -92,10 +91,8 @@
 import { store } from "../store/store.js";
 import { useRoute } from 'vue-router';
 
-// Get the current route
 const route = useRoute();
 
-// Function to check if the current route is active
 const isActive = (path) => {
   return route.path === path;
 };

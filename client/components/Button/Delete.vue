@@ -68,7 +68,6 @@ const props = defineProps({
 });
 const deleteTask = async () => {
   try {
-    // Show confirmation dialog
     const result = await Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
@@ -79,25 +78,20 @@ const deleteTask = async () => {
       confirmButtonText: "Yes, delete it!",
     });
 
-    // Proceed with deletion if confirmed
     if (result.isConfirmed) {
-      // Send the delete request
       const response = await axios.delete("http://localhost:3000/api/tasks", {
         data: { id: props.taskId },
       });
       console.log("Delete response:", response.data);
-      // Show success message
       await Swal.fire({
         title: "Deleted!",
         text: "Your task has been deleted.",
         icon: "success",
       });
 
-      // Optionally reload the page or update the UI
       window.location.reload();
     }
   } catch (error) {
-    // Handle errors
     console.error("Error deleting task:", error);
     Swal.fire({
       icon: "error",

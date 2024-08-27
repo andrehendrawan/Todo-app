@@ -8,6 +8,7 @@ export const store = reactive({
   isModalNewTaskOpen: false,
   isModalEditTaskOpen: false,
   selectedTask: {},
+  reminders: [],
   
   toggleSidebar() {
     this.sidebarOpen = !this.sidebarOpen;
@@ -34,6 +35,13 @@ export const store = reactive({
   },
   closeModalEditTask() { 
     this.isModalEditTaskOpen = false;
+  },
+
+  checkReminders(tasks) {
+    const today = new Date().toISOString().split('T')[0];
+    this.reminders = tasks.filter(task => task.dueDate.startsWith(today));
+    console.log(tasks);
+    
   },
 });
 

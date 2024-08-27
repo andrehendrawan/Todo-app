@@ -384,7 +384,7 @@ import axios from "axios";
 const props = defineProps({
   searchQuery: {
     type: String,
-    default: '',
+    default: "",
   },
 });
 
@@ -394,29 +394,29 @@ const tasks = ref([]);
 const fetchTasks = async (searchQuery = "") => {
   try {
     isLoading.value = true;
-    
+
     // Create a unique cache key based on the search query
     const cacheKey = `tasks_${searchQuery}`;
     const cachedTasks = localStorage.getItem(cacheKey);
     const cacheExpiry = localStorage.getItem(`${cacheKey}_expiry`);
     const now = new Date().getTime();
 
-    if (cachedTasks && cacheExpiry && now < cacheExpiry) {
-      tasks.value = JSON.parse(cachedTasks);
-    } else {
+    // if (cachedTasks && cacheExpiry && now < cacheExpiry) {
+    //   tasks.value = JSON.parse(cachedTasks);
+    // } else {
       const response = await axios.get("http://localhost:3000/api/tasks", {
         params: {
           search: searchQuery,
         },
       });
       tasks.value = response.data;
-
+      // Check for reminders
+      store.checkReminders(tasks.value.data);
       // Cache the data and set an expiry time (e.g., 5 minutes)
-      localStorage.setItem(cacheKey, JSON.stringify(tasks.value));
-      localStorage.setItem(`${cacheKey}_expiry`, now + 5 * 60 * 1000);
-    }
+      // localStorage.setItem(cacheKey, JSON.stringify(tasks.value));
+      // localStorage.setItem(`${cacheKey}_expiry`, now + 5 * 60 * 1000);
+    // }
 
-    console.log(tasks.value);
   } catch (error) {
     console.error("Error fetching tasks:", error);
   } finally {
@@ -424,10 +424,8 @@ const fetchTasks = async (searchQuery = "") => {
   }
 };
 
-// Fetch tasks when component is mounted
 onMounted(() => fetchTasks(props.searchQuery));
 
-// Watch for changes in searchQuery and fetch tasks accordingly
 watch(
   () => props.searchQuery,
   (newQuery) => {

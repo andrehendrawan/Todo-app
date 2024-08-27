@@ -75,8 +75,6 @@ import Swal from "sweetalert2";
 import { ref } from "vue";
 import store from "~/store/store";
 
-// Fetch tasks
-
 const task = ref({
   title: "",
   description: "",
@@ -88,15 +86,12 @@ const task = ref({
 
 const submitNewTask = async () => {
   try {
-    // Send the data to the backend API
     const response = await $fetch("http://localhost:3000/api/tasks", {
       method: "POST",
       body: task.value,
     });
-    // Log the response for debugging purposes
     console.log("New task submitted:", response);
 
-    // Reset the form
     task.value = {
       title: "",
       description: "",
@@ -114,10 +109,8 @@ const submitNewTask = async () => {
     let errorMessage = "An error occurred. Please try again.";
 
     if (error.response && error.response.data && error.response.data.message) {
-      // Use the message from the backend if available
       errorMessage = error.response.data.message;
     } else if (error.message) {
-      // Fallback to the error message if no specific message from the backend
       errorMessage = error.message;
     }
 

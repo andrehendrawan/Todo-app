@@ -10,7 +10,6 @@ export default defineEventHandler(async (event) => {
 
   try {
     if (method === "GET") {
-      // Fetch tasks with status 'completed'
       const completedTasks = await tasksCollection
         .find({ status: "completed" })
         .toArray();
