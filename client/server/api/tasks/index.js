@@ -22,8 +22,15 @@ export default defineEventHandler(async (event) => {
 
   try {
     if (method === 'GET') {
+      // Get the 'title' query parameter
+      const queryTitle = event.node.req.url.split('?')[1]?.split('=')[1];
+      const query = {
+        status: 'pending',
+        ...(queryTitle && { title: new RegExp(queryTitle, 'i') }), // Search by title if provided
+      };
+
       const tasks = await tasksCollection
-        .find({ status: 'pending' })
+        .find(query)
         .sort({ createdAt: -1 })
         .toArray();
     

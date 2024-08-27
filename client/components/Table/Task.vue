@@ -7,6 +7,7 @@
         <table class="min-w-full">
           <thead>
             <tr>
+              <th class="px-4 py-3 border-b border-gray-200 bg-gray-50"></th>
               <th
                 class="px-4 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase border-b border-gray-200 bg-gray-50"
               >
@@ -32,7 +33,6 @@
               >
                 Category
               </th>
-              <th class="px-4 py-3 border-b border-gray-200 bg-gray-50"></th>
               <th class="px-4 py-3 border-b border-gray-200 bg-gray-50"></th>
               <th class="px-4 py-3 border-b border-gray-200 bg-gray-50"></th>
             </tr>
@@ -310,6 +310,11 @@
 
             <tr v-else v-for="task in tasks.data" :key="task.id">
               <td
+                class="px-2 py-4 text-center align-middle border-b border-gray-200"
+              >
+                <ButtonCompleted :taskId="task._id" />
+              </td>
+              <td
                 class="px-4 py-4 whitespace-no-wrap border-b border-gray-200 w-2/5"
               >
                 <div class="flex-1">
@@ -317,31 +322,10 @@
                     <div class="text-sm font-medium leading-5 text-gray-900">
                       {{ task.title }}
                     </div>
-                    <div v-if="!store.isExpanded">
-                      <div class="text-sm leading-5 text-gray-500">
-                        {{
-                          task.description.length > 100
-                            ? task.description.substring(0, 100) + "..."
-                            : task.description
-                        }}
-                      </div>
-                      <button
-                        @click="store.toggleExpand"
-                        class="text-blue-500 text-xs"
-                      >
-                        Read More
-                      </button>
-                    </div>
-                    <div v-else>
+                    <div>
                       <div class="text-sm leading-5 text-gray-500">
                         {{ task.description }}
                       </div>
-                      <button
-                        @click="store.toggleExpand"
-                        class="text-blue-500 text-xs"
-                      >
-                        Read Less
-                      </button>
                     </div>
                   </div>
                 </div>
@@ -375,19 +359,14 @@
               </td>
 
               <td
-                class="px-2 py-4 leading-5 text-right whitespace-no-wrap border-b border-gray-200"
+                class="px-2 py-4 leading-5 text-center whitespace-no-wrap border-b border-gray-200"
               >
                 <ButtonEditTask :task="task" />
               </td>
               <td
-                class="px-2 py-4 leading-5 text-right whitespace-no-wrap border-b border-gray-200"
+                class="px-2 py-4 leading-5 text-center whitespace-no-wrap border-b border-gray-200"
               >
                 <ButtonDelete :taskId="task._id" :fetchTasks="fetchTasks" />
-              </td>
-              <td
-                class="px-2 py-4 leading-5 text-right whitespace-no-wrap border-b border-gray-200"
-              >
-                <ButtonCompleted :taskId="task._id" />
               </td>
             </tr>
           </tbody>
@@ -402,27 +381,39 @@ import { computed, ref, onMounted } from "vue";
 import { store } from "../store/store.js";
 import axios from "axios";
 
+const props = defineProps({
+  searchQuery: {
+    type: String,
+    default: '',
+  },
+});
+
 const isLoading = ref(false);
 
 const tasks = ref([]);
-const fetchTasks = async () => {
+const fetchTasks = async (searchQuery = "") => {
   try {
     isLoading.value = true;
     
-    // Check if cached data exists and is still valid
-    const cachedTasks = localStorage.getItem('tasks');
-    const cacheExpiry = localStorage.getItem('cacheExpiry');
+    // Create a unique cache key based on the search query
+    const cacheKey = `tasks_${searchQuery}`;
+    const cachedTasks = localStorage.getItem(cacheKey);
+    const cacheExpiry = localStorage.getItem(`${cacheKey}_expiry`);
     const now = new Date().getTime();
 
     if (cachedTasks && cacheExpiry && now < cacheExpiry) {
       tasks.value = JSON.parse(cachedTasks);
     } else {
-      const response = await axios.get("http://localhost:3000/api/tasks");
+      const response = await axios.get("http://localhost:3000/api/tasks", {
+        params: {
+          search: searchQuery,
+        },
+      });
       tasks.value = response.data;
 
       // Cache the data and set an expiry time (e.g., 5 minutes)
-      localStorage.setItem('tasks', JSON.stringify(tasks.value));
-      localStorage.setItem('cacheExpiry', now + 5 * 60 * 1000);
+      localStorage.setItem(cacheKey, JSON.stringify(tasks.value));
+      localStorage.setItem(`${cacheKey}_expiry`, now + 5 * 60 * 1000);
     }
 
     console.log(tasks.value);
@@ -433,7 +424,16 @@ const fetchTasks = async () => {
   }
 };
 
-onMounted(fetchTasks);
+// Fetch tasks when component is mounted
+onMounted(() => fetchTasks(props.searchQuery));
+
+// Watch for changes in searchQuery and fetch tasks accordingly
+watch(
+  () => props.searchQuery,
+  (newQuery) => {
+    fetchTasks(newQuery);
+  }
+);
 
 const fullText = `Lorem ipsum dolor sit amet consectetur adipisicing elit. Aut doloribus ex facere, quia iure sequi sapiente rem, non reiciendis facilis expedita laborum ducimus? Vel, incidunt reprehenderit possimus modi debitis facilis nisi tempora exercitationem suscipit est odit tenetur impedit! Delectus dolores optio, provident odit eligendi et rerum dicta ipsa nam explicabo!`;
 

@@ -1,5 +1,5 @@
 <template>
-  <button @click="deleteTask">
+  <button @click="deleteTask" class="transition-transform duration-300 ease-in-out transform hover:scale-110 hover:shadow-lg">
     <svg
       viewBox="0 0 24 24"
       fill="none"

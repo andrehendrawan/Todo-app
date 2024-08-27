@@ -66,7 +66,9 @@
         <input
           class="w-32 pl-10 pr-4 rounded-md form-input sm:w-64 focus:border-indigo-600"
           type="text"
-          placeholder="Search"
+          placeholder="Search your tasks here"
+          v-model="searchQuery"
+          @change="onSearch"
         />
       </div>
     </div>
@@ -213,5 +215,13 @@
 
 <script setup>
 import { store } from "../store/store.js";
+import { ref, defineEmits } from 'vue';
+
+const searchQuery = ref('');
+const emit = defineEmits();
+
+const onSearch = () => {
+  emit('search', searchQuery.value);
+};
 </script>
 

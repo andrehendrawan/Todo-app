@@ -374,12 +374,12 @@
                 </td>
   
                 <td
-                  class="px-2 py-4 leading-5 text-right whitespace-no-wrap border-b border-gray-200"
+                  class="px-2 py-4 leading-5 text-center whitespace-no-wrap border-b border-gray-200"
                 >
                   <ButtonEditTask :task="task" />
                 </td>
                 <td
-                  class="px-2 py-4 leading-5 text-right whitespace-no-wrap border-b border-gray-200"
+                  class="px-2 py-4 leading-5 text-center whitespace-no-wrap border-b border-gray-200"
                 >
                   <ButtonDelete :taskId="task._id" :fetchTasks="fetchTasks" />
                 </td>

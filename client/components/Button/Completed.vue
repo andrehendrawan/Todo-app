@@ -1,9 +1,52 @@
 <template>
   <button
-    class="bg-green-600 text-white rounded-md px-2 py-1 text-xs"
+    @mouseover="isHovered = true"
+    @mouseleave="isHovered = false"
+    class="relative"
     @click="handleCompletedTask"
   >
-    Complete
+    <transition name="fade">
+      <svg
+        v-if="!isHovered"
+        fill="#009903"
+        viewBox="0 0 1920 1920"
+        xmlns="http://www.w3.org/2000/svg"
+        height="24"
+        width="24"
+        key="normal"
+        class="absolute inset-x-0"
+      >
+        <path
+          d="M960 1807.059c-467.125 0-847.059-379.934-847.059-847.059 0-467.125 379.934-847.059 847.059-847.059 467.125 0 847.059 379.934 847.059 847.059 0 467.125-379.934 847.059-847.059 847.059M960 0C430.645 0 0 430.645 0 960s430.645 960 960 960 960-430.645 960-960S1489.355 0 960 0M854.344 1157.975 583.059 886.69l-79.85 79.85 351.135 351.133L1454.4 717.617l-79.85-79.85-520.206 520.208Z"
+          fill-rule="evenodd"
+        ></path>
+      </svg>
+    </transition>
+    <transition name="fade">
+      <svg
+      v-if="isHovered"
+        fill="#00cc00"
+        viewBox="0 0 1920 1920"
+        xmlns="http://www.w3.org/2000/svg"
+        height="24"
+        width="24"
+        key="hovered"
+        class="absolute inset-x-0"
+      >
+        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+        <g
+          id="SVGRepo_tracerCarrier"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        ></g>
+        <g id="SVGRepo_iconCarrier">
+          <path
+            d="M854.344 1317.685 503.209 966.55l79.85-79.85 271.285 271.285 520.207-520.32 79.849 79.962-600.056 600.057ZM960.056 0c-529.355 0-960 430.645-960 960s430.645 960 960 960c529.243 0 960-430.645 960-960S1489.3 0 960.056 0Z"
+            fill-rule="evenodd"
+          ></path>
+        </g>
+      </svg>
+    </transition>
   </button>
 </template>
 
@@ -19,6 +62,7 @@ const props = defineProps({
     required: true,
   },
 });
+const isHovered = ref(false);
 
 const handleCompletedTask = async () => {
   try {
@@ -86,3 +130,27 @@ const handleCompletedTask = async () => {
   }
 };
 </script>
+
+<style scoped>
+button {
+  position: absolute;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  padding: 0;
+}
+
+button:hover {
+  background-color: #e0ffe0; /* Light green background on hover */
+}
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.fade-enter, .fade-leave-to /* .fade-leave-active in <2.1.8 */ {
+  opacity: 0;
+}
+</style>
