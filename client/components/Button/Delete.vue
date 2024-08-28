@@ -79,7 +79,7 @@ const deleteTask = async () => {
     });
 
     if (result.isConfirmed) {
-      const response = await axios.delete("http://localhost:3000/api/tasks", {
+      const response = await axios.delete(`${import.meta.env.VITE_BASE_URL}/api/tasks`, {
         data: { id: props.taskId },
       });
       console.log("Delete response:", response.data);

@@ -13,6 +13,6 @@ export const client = new MongoClient(uri, {
     },
   });
 
-  console.log(client);
-  console.log(uri);
+  // console.log(client);
+  // console.log(uri);
   

@@ -139,7 +139,7 @@ const completedTasks = ref(0);
 
 const fetchTaskCounts = async () => {
   try {
-    const { totalTasks: total, completedTasks: completed, pendingTasks: pending } = await $fetch('http://localhost:3000/api/tasks/counts');
+    const { totalTasks: total, completedTasks: completed, pendingTasks: pending } = await $fetch(`${import.meta.env.VITE_BASE_URL}/api/tasks/counts`);
     totalTasks.value = total;
     pendingTasks.value = pending;
     completedTasks.value = completed;

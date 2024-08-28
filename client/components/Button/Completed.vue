@@ -78,7 +78,7 @@ const handleCompletedTask = async () => {
 
     if (result.isConfirmed) {
       const response = await axios.put(
-        `http://localhost:3000/api/tasks/completed`,
+        `${import.meta.env.VITE_BASE_URL}/api/tasks/completed`,
         {
           data: { id: props.taskId },
           status: "completed",
@@ -98,7 +98,7 @@ const handleCompletedTask = async () => {
       });
 
       if (undoResult.dismiss === Swal.DismissReason.cancel) {
-        await axios.put(`http://localhost:3000/api/tasks/completed`, {
+        await axios.put(`${import.meta.env.VITE_BASE_URL}/api/tasks/completed`, {
           data: { id: props.taskId },
           status: "pending", 
         });

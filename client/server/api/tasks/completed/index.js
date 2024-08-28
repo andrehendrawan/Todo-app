@@ -71,7 +71,5 @@ export default defineEventHandler(async (event) => {
   } catch (err) {
     console.error(err);
     return { statusCode: 500, body: "Internal Server Error" };
-  } finally {
-    await client.close();
   }
 });

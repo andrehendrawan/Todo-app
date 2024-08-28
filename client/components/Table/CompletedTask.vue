@@ -402,7 +402,7 @@
   const fetchTasks = async () => {
     try {
       isLoading.value = true;
-      const response = await axios.get("http://localhost:3000/api/tasks/completed");
+      const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/api/tasks/completed`);
       tasks.value = response.data;
       console.log(tasks.value);
       

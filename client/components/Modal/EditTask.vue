@@ -106,7 +106,7 @@ const submitEditedTask = async () => {
     delete taskData.updatedAt; 
     delete taskData.createdAt;
 
-    const response = await axios.put('http://localhost:3000/api/tasks', {
+    const response = await axios.put(`${import.meta.env.VITE_BASE_URL}/api/tasks`, {
       id,
       ...taskData,  
     });
