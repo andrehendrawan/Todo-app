@@ -394,7 +394,6 @@ const tasks = ref([]);
 const fetchTasks = async (searchQuery = "") => {
   try {
     isLoading.value = true;
-    console.log(import.meta.env.VITE_BASE_URL);
     
     // Create a unique cache key based on the search query
     const cacheKey = `tasks_${searchQuery}`;

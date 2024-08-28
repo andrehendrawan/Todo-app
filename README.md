@@ -23,7 +23,7 @@ It includes features like task prioritization, due dates, labels, and recurring 
 ### 4. Cross-Platform Syncing
 **Explanation**: Syncing across multiple devices ensures that users can access their tasks from anywhere, which is crucial for maintaining productivity.
 
-### 5. Reminders/Notifications
+### 5. Reminders
 **Explanation**: Reminders help users stay on top of their tasks, ensuring nothing falls through the cracks.
 
 ## Nice-to-Have Features
@@ -58,3 +58,48 @@ It includes features like task prioritization, due dates, labels, and recurring 
 
 
 # Task #3: Build your own todo app
+
+**Deployment Link to the app**: https://todo-dge5y7rkj-andre-hendrawans-projects.vercel.app/
+
+## How to Run the App
+
+### Prerequisites
+
+Before you start, ensure you have the following installed on your machine:
+
+- [Node.js] (version 16 or higher)
+- [npm]
+### Installation Steps
+
+1. **Navigate to the client directory**
+
+   ```bash
+    cd ./client
+    ```
+
+2. **Install Dependencies**
+
+    ```bash
+    npm install
+    ```
+    # or
+    ```bash
+    yarn install
+    ```
+
+3. **Set Up Environment Variables**
+
+    Create a .env file in the root directory of your project and add the following:
+
+    ```bash
+    MONGO_URI=YOUR_MONGODB_URI
+
+    VITE_BASE_URL=YOUR_BASE_URL
+    ```
+
+4. Run the Development Server
+    ```bash
+    npm run dev
+    ```
+    The app should now be running on http://localhost:3000.
+    
